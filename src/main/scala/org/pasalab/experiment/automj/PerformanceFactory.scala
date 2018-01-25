@@ -3,20 +3,7 @@ package org.pasalab.experiment.automj
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.types.StructType
 
-class Performance(
-                   partitions: Int,
-                   query: String,
-                   minExecTime: Double,
-                   maxExecTime: Double,
-                   avgExecTime: Double,
-                   execTimeStdDev: Double,
-                   minOptTime: Double,
-                   maxOptTime: Double,
-                   avgOptTime: Double,
-                   optTimeStdDev: Double
-                 ) {
-}
-object Performance {
+object PerformanceFactory {
   def apply(partitions: Int, schema: StructType, row: Row): Performance = {
     val fields = schema.fields
     val q = fields.indexWhere(s => s.name == "query")

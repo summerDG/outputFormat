@@ -12,6 +12,9 @@ class PerformanceSheet(
                         filePath: String,
                         sheetName: String)
   extends OutputSheetXlsx[Performance](filePath, sheetName) {
+  classOf[Performance].getDeclaredFields.foreach{
+    f =>
+      annotationList.add(f)}
   override def appendList(listdata: util.List[Performance]): Unit = {
     if(isFile){
       val listData=getLastDataRowNum()

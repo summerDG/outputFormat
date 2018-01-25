@@ -54,11 +54,7 @@ public abstract class OutputSheetXlsx<T> {
   /**
    * 注解列表（Object[]{ ExcelField, Field/Method }）
    */
-  List<Object[]> annotationList = new ArrayList<Object[]>();
-
-  public OutputSheetXlsx(String filePath, String sheetName) {
-    this(filePath, sheetName,0);
-  }
+  protected List<Object> annotationList = new ArrayList<Object>();
 
   //检测文件大小。
   private File checkFilePath(String filePath) {
@@ -83,7 +79,7 @@ public abstract class OutputSheetXlsx<T> {
     return null;
   }
 
-  public OutputSheetXlsx(String filePath, String sheetName, int headnum) {
+  public OutputSheetXlsx(String filePath, String sheetName) {
     File file=checkFilePath(filePath);
     try {
       clazz=getClass();
@@ -93,14 +89,15 @@ public abstract class OutputSheetXlsx<T> {
 //              fileChannel=new RandomAccessFile(file, "rw").getChannel();
         wb=new HSSFWorkbook(fileInput);
         sheet=wb.getSheet(sheetName);
+        this.headnum = 1;
 //              fileLock=fileChannel.lock();
       }else{//文件不存在 // 新建
         isFile=false;
         wb=new HSSFWorkbook();
         sheet=wb.createSheet(sheetName);
+        this.headnum=0;
       }
       this.filePath=filePath;
-      this.headnum=headnum;
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -116,11 +113,11 @@ public abstract class OutputSheetXlsx<T> {
   public void setData(Row row, T data){
     int column = 0;
     Object val = null;
-    for (Object[] os : annotationList){
-      if(os[1] instanceof Field){
-        val = Reflections.invokeGetter(data, ((Field)os[1]).getName());
-      }else if (os[1] instanceof Method){
-        val = Reflections.invokeMethod(data, ((Method)os[1]).getName(), new Object[] {});
+    for (Object os : annotationList){
+      if(os instanceof Field){
+        val = Reflections.invokeGetter(data, ((Field)os).getName());
+      }else if (os instanceof Method){
+        val = Reflections.invokeMethod(data, ((Method)os).getName(), new Object[] {});
       }
       this.addCell(row, column++, val, 1, Class.class);
     }

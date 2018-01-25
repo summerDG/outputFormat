@@ -36,7 +36,7 @@ object Main {
       }
     }
     val list = new util.ArrayList[Performance]()
-    df.collect().foreach(r => list.add(Performance(10, schema, r)))
+    df.collect().foreach(r => list.add(PerformanceFactory(10, schema, r)))
     generateSheet.appendSheet("x", list)
     val output = new OutputExcelXlsx[Performance]("test.xls", generateSheet)
     output.output()
