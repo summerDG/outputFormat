@@ -1,7 +1,9 @@
-import org.apache.spark.sql.{DataFrame, Row}
+package org.pasalab.experiment.automj
+
+import org.apache.spark.sql.Row
 import org.apache.spark.sql.types.StructType
 
-case class Performance(
+class Performance(
                    partitions: Int,
                    query: String,
                    minExecTime: Double,
@@ -13,6 +15,8 @@ case class Performance(
                    avgOptTime: Double,
                    optTimeStdDev: Double
                  ) {
+}
+object Performance {
   def apply(partitions: Int, schema: StructType, row: Row): Performance = {
     val fields = schema.fields
     val q = fields.indexWhere(s => s.name == "query")

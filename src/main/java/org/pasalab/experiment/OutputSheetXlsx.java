@@ -1,13 +1,11 @@
-package org.pasalab.experiment.automj;
+package org.pasalab.experiment;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.sl.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,7 +20,7 @@ import java.util.*;
 /**
  * Created by summerDG on 2018/1/23.
  */
-public abstract class OutputXlsx<T> {
+public abstract class OutputSheetXlsx<T> {
   private Class<?> clazz;
 
   public HSSFWorkbook wb;
@@ -60,7 +58,7 @@ public abstract class OutputXlsx<T> {
    */
   List<Object[]> annotationList = new ArrayList<Object[]>();
 
-  public OutputXlsx(String filePath, String sheetName) {
+  public OutputSheetXlsx(String filePath, String sheetName) {
     this(filePath, sheetName,1);
   }
 
@@ -87,7 +85,7 @@ public abstract class OutputXlsx<T> {
     return null;
   }
 
-  public OutputXlsx(String filePath, String sheetName, int headnum) {
+  public OutputSheetXlsx(String filePath, String sheetName, int headnum) {
     File file=checkFilePath(filePath);
     try {
       clazz=getClass();

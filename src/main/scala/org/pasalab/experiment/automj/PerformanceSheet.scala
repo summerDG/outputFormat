@@ -1,15 +1,18 @@
 package org.pasalab.experiment.automj
+
 import java.util
+
+import org.pasalab.experiment.OutputSheetXlsx
 
 
 /**
   * Created by summerDG on 2018/1/23.
   */
-class PerformanceExcel(
+class PerformanceSheet(
                         filePath: String,
                         sheetName: String)
-  extends OutputXlsx(filePath, sheetName) {
-  override def appendList(listdata: util.List[Nothing]): Unit = {
+  extends OutputSheetXlsx[Performance](filePath, sheetName) {
+  override def appendList(listdata: util.List[Performance]): Unit = {
     if(isFile){
       val listData=getLastDataRowNum()
       setListData(listData, listdata)
@@ -19,7 +22,7 @@ class PerformanceExcel(
     export()
   }
 
-  override def append(data: Nothing): Unit = {
+  override def append(data: Performance): Unit = {
     if(isFile){
       val listData=getLastDataRowNum()
       val row= sheet.createRow(listData)
