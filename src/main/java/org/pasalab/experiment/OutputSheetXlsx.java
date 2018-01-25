@@ -3,9 +3,7 @@ package org.pasalab.experiment;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,7 +57,7 @@ public abstract class OutputSheetXlsx<T> {
   List<Object[]> annotationList = new ArrayList<Object[]>();
 
   public OutputSheetXlsx(String filePath, String sheetName) {
-    this(filePath, sheetName,1);
+    this(filePath, sheetName,0);
   }
 
   //检测文件大小。
@@ -157,6 +155,7 @@ public abstract class OutputSheetXlsx<T> {
       }else{
         if(val instanceof String) {
           cell.setCellValue((String) val);
+          cellFormatString = "@";
         }else if(val instanceof Integer) {
           cell.setCellValue((Integer) val);
           cellFormatString = "0";
@@ -178,13 +177,8 @@ public abstract class OutputSheetXlsx<T> {
         }
       }
       if (val != null){
-        CellStyle style = styles.get("data_column_"+column);
-        if (style == null){
-          style = wb.createCellStyle();
-          style.cloneStyleFrom(styles.get("data"+(align>=1&&align<=3?align:"")));
-          style.setDataFormat(wb.createDataFormat().getFormat(cellFormatString));
-          styles.put("data_column_" + column, style);
-        }
+        CellStyle style = wb.createCellStyle();
+        style.setDataFormat(wb.createDataFormat().getFormat(cellFormatString));
         cell.setCellStyle(style);
       }
     } catch (Exception ex) {
